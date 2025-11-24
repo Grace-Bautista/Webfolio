@@ -10,7 +10,6 @@ html {
   scroll-behavior: smooth;
 }
 
-
 body {
   background: linear-gradient(180deg, #0d0033, #0a1b4a, #0d0033);
   color: #fff;
@@ -26,6 +25,7 @@ body {
   to { opacity: 1; }
 
 }
+
 header {
   width: 100%;
   padding: 20px 60px;
@@ -39,6 +39,7 @@ header {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px #22ddd2;
 }
 
 header h1 {
@@ -58,7 +59,15 @@ nav a:hover {
   text-decoration: underline;
   text-underline-offset: 6px;
   text-decoration-thickness: 2px;
+}
 
+.burger {
+  display: none;
+  font-size: 26px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }
 
 /* Gen Style */
@@ -104,8 +113,11 @@ section {
   );
 }
 
-
 /* HERO */
+#hero {
+  transition: all;
+}
+
 #hero-text {
   max-width: 500px;
 }
@@ -164,7 +176,6 @@ section {
 }
 
 /*********** PROJECTS ************/
-/* SECTION BASE */
 #projects {
   padding: 80px 30px;
   text-align: center;
@@ -172,47 +183,18 @@ section {
   color: #fff;
 }
 
-/* WRAPPER HOLDS EVERYTHING */
-.carousel-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 1600px; /* enough for 3 large slides */
-  margin: auto;
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* VISIBLE WINDOW */
-.carousel-container {
-  width: 100%;
-  overflow: hidden;
-  padding: 20px 0;
-}
-
-/* TRACK */
-.carousel-track {
-  display: flex;
-  gap: 60px;
-  align-items: center;
-  justify-content: center; /* keep */
-  transition: transform 0.6s ease;
-  width: max-content;     /* NEW: prevents shrinking */
-}
-
-/* SLIDE */
+/* CAROUSEL SLIDES */
 .project-slide {
+  position: relative;
   width: 480px;
   height: 311px;
-  position: relative;
   border-radius: 20px;
   overflow: hidden;
   text-align: center;
   opacity: 0.5;
   transform: scale(0.8);
   filter: blur(2px);
-  transition: 0.4s ease;
+  transition: all 0.4s ease;
 }
 
 .project-slide img {
@@ -221,6 +203,17 @@ section {
   object-fit: cover;
 }
 
+/* Active Slide */
+.project-slide.active {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  box-shadow: 0 0 35px #22ddd2;
+  border: 2px solid rgba(34, 221, 210, 0.5);
+  z-index: 10;
+}
+
+/* Slide Footer */
 .project-slide span {
   position: absolute;
   bottom: 0;
@@ -238,13 +231,122 @@ section {
   );
 }
 
-.project-slide.active {
-  opacity: 1;
-  transform: scale(1);
-  filter: blur(0px);
-  box-shadow: 0 0 35px #22ddd2;
-  border: 2px solid rgba(34,221,210,0.5);
-  z-index: 10;
+/*********** PROJECT MODAL ***********/
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 0, 40, 0.85);
+  backdrop-filter: blur(12px);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Modal Box */
+.modal-content {
+  background: rgba(0, 9, 40, 0.85);
+  border: 2px solid #22ddd2;
+  box-shadow: 0 0 40px #22ddd2;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 720px;
+  padding: 30px;
+  position: relative;
+  text-align: center;
+  animation: modalFadeIn 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  border: 2px solid #22ddd2;
+}
+
+/* Modal Title & Description */
+.modal-content h2 {
+  color: #22ddd2;
+  margin-bottom: 16px;
+  font-size: 28px;
+}
+
+.modal-content p {
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* Close Button */
+.modal-content .close {
+  position: absolute;
+  top: -8px;
+  right: 10px;
+  font-size: 35px;
+  font-weight: 300;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.3s ease;
+  z-index: 2;
+}
+
+.modal-content .close:hover {
+  color: #22ddd2;
+}
+
+/* MODAL RESPONSIVENESS */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 20px;
+  }
+
+  .modal-content h2 {
+    font-size: 24px;
+  }
+}
+
+
+/* WRAPPER HOLDS EVERYTHING */
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1600px; /* enough for 3 large slides */
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+/* VISIBLE WINDOW */
+.carousel-container {
+  width: 100%;
+  padding: 40px 0;
+  overflow-x: hidden;
+}
+
+/* TRACK */
+.carousel-track {
+  display: flex;
+  gap: 60px;
+  align-items: center;
+  justify-content: center; /* keep */
+  transition: transform 0.6s ease;
+  width: max-content;     /* NEW: prevents shrinking */
 }
 
 /* BUTTONS */
@@ -326,6 +428,15 @@ section {
   box-shadow: 0 0 30px #22ddd260;
 }
 
+@media (max-width: 1024px) {
+  .skills-grid{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: auto;    
+  }
+}
 
 /* CONTACT */
 #contact {
@@ -343,27 +454,35 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 30px;
+  gap: 40px;           /* space between info and form */
   max-width: 1000px;
   margin: auto;
 
-  /* Glass effect */
-  background: rgba(79, 93, 172, 0.1); /* translucent glass */
-  backdrop-filter: blur(15px); 
-  -webkit-backdrop-filter: blur(12px); 
-
+  background: rgba(79, 93, 172, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-
   padding: 50px;
+
+  flex-wrap: wrap; /* makes it responsive on smaller screens */
 }
 
 .contact-info {
+  flex: 1;  
+  min-width: 280px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 20px;
+}
+
+.contact-form {
+  flex: 2;    
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .contact-info p {
@@ -402,7 +521,6 @@ section {
 }
 
 footer {
-  margin-top: 120px;
   text-align: center;
   padding: 20px;
   opacity: 0.6;
@@ -469,7 +587,6 @@ footer {
 }
 
 
-
 /*********** MOBILE RESPONSIVENESS ***********/
 @media (max-width: 1024px) {
   header {
@@ -509,7 +626,30 @@ footer {
 
 @media (max-width: 768px) {
   nav {
-    display: none; /* simple for now, can make hamburger if you want */
+    display: flex;
+    flex-direction: column;
+    background: #0a1b4a;
+    position: absolute;
+    top: 70px; /* below header */
+    right: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    padding-right: 10px;
+
+    max-height: 0;       /* start collapsed */
+    transition: max-height 0.4s ease; /* smooth slide */
+  }
+
+  nav.show {
+    max-height: 500px;   /* enough height to show all items */
+  }
+
+  nav a {
+    padding: 10px 0;
+  }
+
+  .burger {
+    display: block;
   }
 
   #hero img, #about img {
@@ -523,6 +663,10 @@ footer {
   .contact-wrap {
     flex-direction: column;
     padding: 30px;
+  }
+
+  .contact-form {
+    width: 100%;
   }
 }
 

@@ -17,8 +17,10 @@
   <body>
     <!-- HEADER -->
     <header>
-      <h1>My Portfolio</h1>
-      <nav>
+      <h1>My Portfolio</h1>      
+      <button class="burger" id="burger-btn">☰</button>
+
+      <nav id="nav-menu">
         <a href="#hero">Home</a>
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
@@ -76,6 +78,17 @@
             >Watch Video</a>
         </div>
       </div>
+
+      <!-- VIDEO MODAL -->
+      <div id="videoModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+
+          <video id="aboutVideo" controls>
+            <source src="Media/AboutMeVideo.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
     </section>
 
     <!-- PROJECTS SECTION -->
@@ -88,32 +101,70 @@
     
         <div class="carousel-container">
           <div class="carousel-track">
-    
-            <!-- Original Slides -->
-            <div class="project-slide">
-              <img src="Media/Projects/onlineOrdering.svg">
-              <span><h3>Online Ordering System</h3><a class="btn-primary">Learn More</a></span>
+        
+            <div class="project-slide" 
+                data-title="Online Ordering System" 
+                data-desc="This project allows customers to place orders online, choose product customizations, and pay securely while enabling admins to manage inventory efficiently, track sales, and generate reports.">
+              <img src="Media/Projects/onlineOrdering.svg" alt="Online Ordering System">
+              <span>
+                <h3>Online Ordering System</h3>
+                <button class="btn-primary learn-more">Learn More</button>
+              </span>
             </div>
-    
-            <div class="project-slide">
-              <img src="Media/Projects/inventory.svg">
-              <span><h3>Inventory System</h3><a class="btn-primary">Learn More</a></span>
+
+            <div class="project-slide" 
+                data-title="Inventory System" 
+                data-desc="A robust inventory management system that lets admins track stock levels in real-time, update products, manage suppliers, and generate comprehensive inventory reports for better decision-making.">
+              <img src="Media/Projects/inventory.svg" alt="Inventory System">
+              <span>
+                <h3>Inventory System</h3>
+                <button class="btn-primary learn-more">Learn More</button>
+              </span>
             </div>
-    
-            <div class="project-slide">
-              <img src="Media/Projects/fruit.svg">
-              <span><h3>Fruit App UI</h3><a class="btn-primary">Learn More</a></span>
+
+            <div class="project-slide" 
+                data-title="Landing Page Design" 
+                data-desc="A responsive landing page created to attract and engage users, featuring intuitive navigation, modern visuals, and a layout optimized for lead generation and user conversion.">
+              <img src="Media/Projects/LandingPage.jpeg" alt="Landing Page Design">
+              <span>
+                <h3>Landing Page Design</h3>
+                <button class="btn-primary learn-more">Learn More</button>
+              </span>
             </div>
-    
+
+            <div class="project-slide" 
+                data-title="Banner Ad" 
+                data-desc="A visually engaging banner ad designed with strategic color, typography, and composition to grab attention, convey brand messages, and increase click-through rates effectively.">
+              <img src="Media/Projects/Banner_ad.jpeg" alt="Banner Ad">
+              <span>
+                <h3>Banner Ad</h3>
+                <button class="btn-primary learn-more">Learn More</button>
+              </span>
+            </div>
+
+            <div class="project-slide" 
+                data-title="Fruit Sketch" 
+                data-desc="An illustrative fruit sketch project showcasing artistic rendering techniques, attention to detail, and creativity in color blending and shading for a polished visual presentation.">
+              <img src="Media/Projects/fruit.svg" alt="Fruit Sketch">
+              <span>
+                <h3>Fruit Sketch</h3>
+                <button class="btn-primary learn-more">Learn More</button>
+              </span>
+            </div>
+
           </div>
         </div>
-    
+        
+        <!-- PROJECT MODAL -->
+        <div id="projectModal" class="modal">
+          <div class="modal-content">
+          </div>
+        </div>
+
         <button class="carousel-btn next">&#10095;</button>
-    
+
       </div>
-    </section>
-    
-    
+    </section>  
 
     <!-- SKILLS SECTION -->
     <section id="skills">
@@ -194,12 +245,12 @@
           </div>
         </div>
 
-        <div class="contact-form" style="width: 60%">
+        <div class="contact-form">
           <input type="text" placeholder="Enter your Name" />
           <input type="email" placeholder="Enter your Email" />
           <input type="text" placeholder="Enter your Subject" />
           <textarea placeholder="Enter your Message" rows="5"></textarea>
-          <button class="send-btn">SEND</button>
+          <button class="send-btn" style="width: 7rem;">SEND</button>
         </div>
       </div>
     </section>
@@ -208,17 +259,16 @@
     <footer>
       © 2025 Richel Amie Grace F. Bautista. All rights reserved.
     </footer>
-    
-  <!-- VIDEO MODAL -->
-  <div id="videoModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
 
-      <video id="aboutVideo" controls>
-        <source src="Media/AboutMeVideo.mp4" type="video/mp4" />
-      </video>
-    </div>
-  </div>
+  <!-- BURGER TOGGLE SCRIPT -->
+  <script>
+    const burger = document.getElementById("burger-btn");
+    const menu = document.getElementById("nav-menu");
+
+    burger.addEventListener("click", () => {
+        menu.classList.toggle("show");
+    });
+  </script>
 
   <!-- CAROUSEL SCRIPT-->
   <script>
@@ -318,14 +368,78 @@
       track.style.transition = "none";
       positionTrack();
     });
-    </script>
-    
-    
-  <!--Modal Script-->
+
+    // Show overlay
+    document.querySelectorAll('.learn-more').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const slide = e.currentTarget.closest('.project-slide');
+          slide.querySelector('.project-desc').style.display = 'block';
+        });
+      });
+  
+      // Close overlay
+      document.querySelectorAll('.close-desc').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const overlay = e.currentTarget.closest('.project-desc');
+          overlay.style.display = 'none';
+        });
+      });
+  </script>
+
+  <!-- PROJECT MODAL SCRIPT -->
+  <script>
+    // Select the project modal and its content
+    const projectModal = document.getElementById("projectModal");
+    const modalContent = projectModal.querySelector(".modal-content");
+
+    // Clear any previous content inside modal (optional)
+    modalContent.innerHTML = "";
+
+    // Create elements inside modal
+    const modalImg = document.createElement("img");
+    const modalTitle = document.createElement("h2");
+    const modalDesc = document.createElement("p");
+    const closeBtn = document.createElement("span");
+
+    closeBtn.textContent = "×";
+    closeBtn.classList.add("close");
+
+    // Append elements to modal content
+    modalContent.appendChild(closeBtn);
+    modalContent.appendChild(modalImg);
+    modalContent.appendChild(modalTitle);
+    modalContent.appendChild(modalDesc);
+
+    // Open modal when clicking "Learn More"
+    document.querySelectorAll(".learn-more").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const slide = btn.closest(".project-slide");
+        modalImg.src = slide.querySelector("img").src;       // project image
+        modalImg.alt = slide.querySelector("img").alt;      // alt text
+        modalTitle.textContent = slide.dataset.title;       // project title
+        modalDesc.textContent = slide.dataset.desc;        // project description
+        projectModal.style.display = "flex";               // show modal
+      });
+    });
+
+    // Close modal when clicking close button
+    closeBtn.addEventListener("click", () => {
+      projectModal.style.display = "none";
+    });
+
+    // Close modal when clicking outside modal content
+    window.addEventListener("click", (e) => {
+      if (e.target === projectModal) {
+        projectModal.style.display = "none";
+      }
+    });
+  </script>
+
+  <!-- MODAL SCRIPT -->
   <script>
     const videoModal = document.getElementById("videoModal");
     const watchBtn = document.querySelector('.about-btns a:nth-child(2)');
-    const closeBtn = document.querySelector('.modal .close');
+    const VidcloseBtn = document.querySelector('.modal .close');
     const video = document.getElementById("aboutVideo");
 
     watchBtn.onclick = () => {
@@ -333,7 +447,7 @@
       video.play();
     };
 
-    closeBtn.onclick = () => {
+    VidcloseBtn.onclick = () => {
       videoModal.style.display = "none";
       video.pause();
       video.currentTime = 0;
